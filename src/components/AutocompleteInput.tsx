@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import { getAirports, Airport } from "../services/autocomplete";
+import { emptyAirport } from "../App";
 
 interface AutocompletInputProps {
   airport: Airport | null;
@@ -46,7 +47,7 @@ export const AutocompletInput = ({
   return (
     <Autocomplete
       id="from-autocomplete"
-      sx={{ width: 300, marginY: '5px' }}
+      sx={{ width: 300, marginY: "5px" }}
       open={open && inputValue.length > 2}
       onOpen={() => {
         setOpen(true);
@@ -55,7 +56,11 @@ export const AutocompletInput = ({
         setInputValue("");
         setOpen(false);
       }}
-      onInputChange={(event, newInputValue) => {
+      onInputChange={(event, newInputValue, reason) => {
+        if (reason === "clear") {
+          setAirport(emptyAirport);
+          setOptions([]);
+        }
         setInputValue(newInputValue);
       }}
       onChange={(event: any, newValue: Airport | null) => {

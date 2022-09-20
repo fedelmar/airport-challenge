@@ -6,7 +6,7 @@ import { calcCrow, middlePoint } from "./helpers/distanceCalc";
 import { Map } from "./components/Map";
 import { Typography } from "@mui/material";
 
-const emptyAirport = {
+export const emptyAirport = {
   name: "",
   city: "",
   iata: "",
@@ -41,14 +41,12 @@ const App = () => {
         setDistance(result);
         const center = middlePoint(locationFrom, locationTo);
         setCenter(center);
-        console.log('Entra')
       } else {
-        console.log('setea el centro')
         setCenter({ lat: locationFrom.latitude, lng: locationFrom.longitude });
+        setDistance(0);
       }
     }
   }, [from, to]);
-  console.log(center)
 
   return (
     <Box
@@ -87,7 +85,21 @@ const App = () => {
         </Box>
       )}
 
-      {from && from.name !== "" && <Map center={center} />}
+      {from && from.name !== "" && to && to.name !== "" && (
+        <Map
+          locationFrom={{
+            latitude: parseFloat(from.latitude),
+            longitude: parseFloat(from.longitude),
+            name: from.name,
+          }}
+          locationTo={{
+            latitude: parseFloat(to.latitude),
+            longitude: parseFloat(to.longitude),
+            name: to.name,
+          }}
+          center={center}
+        />
+      )}
     </Box>
   );
 };

@@ -1,6 +1,7 @@
 export type Location = {
   latitude: number;
   longitude: number;
+  name?: string;
 };
 
 const toRad = (value: number) => {
