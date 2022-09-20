@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-console.log(API_KEY)
 const URI = "https://www.air-port-codes.com/api/v1/";
 const COUNTRY = "us";
 
