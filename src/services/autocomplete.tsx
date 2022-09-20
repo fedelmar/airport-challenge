@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_KEY = process.env.API_KEY || "d37b002dfd";
+const API_KEY = process.env.REACT_APP_API_KEY;
 const URI = "https://www.air-port-codes.com/api/v1/";
 const COUNTRY = "us";
 
@@ -31,7 +31,7 @@ export const getAirports = async (searchTerm: string) => {
       {
         headers: {
           Accept: "application/json",
-          "APC-Auth": API_KEY,
+          "APC-Auth": API_KEY!,
         },
       }
     );

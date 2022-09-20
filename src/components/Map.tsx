@@ -1,8 +1,8 @@
-import React, {  ReactElement, useEffect, useRef, useState } from "react";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { Location } from "../helpers/distanceCalc";
 
-const API_KEY = process.env.REACT_APP_API_KEY;
+const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
 
 const MapComponent = ({
   center,
