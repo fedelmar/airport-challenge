@@ -69,6 +69,9 @@ const App = () => {
           marginY: "20px",
         }}
       >
+        <Typography variant="body2" sx={{ marginBottom: "3px" }}>
+          Type at least 3 characters to search
+        </Typography>
         <AutocompletInput airport={from} setAirport={setFrom} label="From" />
         {from && from.name !== "" && (
           <AutocompletInput airport={to} setAirport={setTo} label="To" />
