@@ -1,32 +1,8 @@
-import React, { FC, ReactElement, useEffect, useRef, useState } from "react";
+import React, {  ReactElement, useEffect, useRef, useState } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { Location } from "../helpers/distanceCalc";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-
-const Marker: FC<google.maps.MarkerOptions> = (options) => {
-  const [marker, setMarker] = useState<google.maps.Marker>();
-
-  useEffect(() => {
-    if (!marker) {
-      setMarker(new google.maps.Marker());
-    }
-
-    return () => {
-      if (marker) {
-        marker.setMap(null);
-      }
-    };
-  }, [marker]);
-
-  useEffect(() => {
-    if (marker) {
-      marker.setOptions(options);
-    }
-  }, [marker, options]);
-
-  return null;
-};
 
 const MapComponent = ({
   center,
@@ -67,7 +43,7 @@ const MapComponent = ({
       const bounds = new google.maps.LatLngBounds();
       bounds.extend(positionFrom);
       bounds.extend(positionTo);
-      (map as google.maps.Map).fitBounds(bounds);
+      map.fitBounds(bounds);
 
       // Add airport from marker
       new window.google.maps.Marker({
@@ -76,12 +52,23 @@ const MapComponent = ({
         title: locationFrom.name,
       });
 
-      // add ariport to marker
+      // Add ariport to marker
       new window.google.maps.Marker({
         position: positionTo,
         map,
         title: locationTo.name,
       });
+
+      // Add line
+      const line = new window.google.maps.Polyline({
+        path: [positionFrom, positionTo],
+        geodesic: true,
+        strokeColor: "#0000FF",
+        strokeOpacity: 0.8,
+        strokeWeight: 3,
+      });
+
+      line.setMap(map);
 
       setMap(map);
     }
