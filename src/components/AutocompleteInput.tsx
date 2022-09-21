@@ -36,7 +36,7 @@ export const AutocompletInput = ({
   return (
     <Autocomplete
       id="airport-autocomplete"
-      sx={{ width: 300, marginY: "5px" }}
+      sx={{ width: '100%', marginY: "5px" }}
       onInputChange={(event, newInputValue, reason) => {
         if (reason === "clear") {
           setAirport(emptyAirport);

@@ -113,7 +113,13 @@ const App = () => {
         <Typography variant="h5"  sx={{ marginBottom: 5 }}>Airport Distance Calculator</Typography>
         <Box
           sx={{
-            minWidth: 300,
+            width: {
+              xs: 300,
+              sm: 550,
+              md: 700,
+              lg: 700,
+              xl: 700,
+            },
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -128,7 +134,7 @@ const App = () => {
         </Box>
 
         {distance !== 0 && (
-          <Box sx={{ maxWidth: 300 , marginY: 3 }}>
+          <Box sx={{ maxWidth: 300 , marginBottom: 3 }}>
             <Typography sx={{ flexWrap: "wrap" }}>
               {`The distance between the two airports is: ${distance.toFixed(
                 2
