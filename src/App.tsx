@@ -110,7 +110,7 @@ const App = () => {
           },
         }}
       >
-        <Typography variant="h5"  sx={{ marginBottom: 5 }}>Airport Distance Calculator</Typography>
+        <Typography variant="h5"  sx={{ marginBottom: 5, textDecoration: "underline" }}>Airport Distance Calculator</Typography>
         <Box
           sx={{
             width: {
@@ -126,7 +126,7 @@ const App = () => {
             marginBottom: 3 
           }}
         >
-          <Typography variant="body2"  sx={{ marginBottom: 1 }}>
+          <Typography  variant="body2"  sx={{ marginBottom: 1 }}>
             Type at least 3 characters to search
           </Typography>
           <AutocompletInput airport={from} setAirport={setFrom} label="From" />
