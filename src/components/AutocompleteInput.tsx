@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, CircularProgress, TextField } from "@mui/material";
 import { getAirports, Airport } from "../services/autocomplete";
 import { emptyAirport } from "../App";
 
@@ -14,48 +14,29 @@ export const AutocompletInput = ({
   setAirport,
   label,
 }: AutocompletInputProps) => {
-  const [open, setOpen] = useState(false);
   const [options, setOptions] = useState<readonly Airport[]>([]);
   const [inputValue, setInputValue] = useState("");
-  const loading = open && options.length === 0;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    let active = true;
-    if (!loading) {
-      return undefined;
-    }
-
     (async () => {
-      const airports = await getAirports(inputValue);
-
-      if (active) {
-        setOptions([...(airports || [])]);
+      setLoading(true);
+      if (inputValue.length > 2) {
+        const airports = await getAirports(inputValue);
+        if (airports) {
+          setOptions(airports);
+        } else {
+          setOptions([]);
+        }
       }
+      setLoading(false);
     })();
-
-    return () => {
-      active = false;
-    };
-  }, [loading, inputValue]);
-
-  useEffect(() => {
-    if (!open || inputValue.length < 3) {
-      setOptions([]);
-    }
-  }, [open, inputValue]);
+  }, [inputValue]);
 
   return (
     <Autocomplete
-      id="from-autocomplete"
+      id="airport-autocomplete"
       sx={{ width: 300, marginY: "5px" }}
-      open={open && inputValue.length > 2}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setInputValue("");
-        setOpen(false);
-      }}
       onInputChange={(event, newInputValue, reason) => {
         if (reason === "clear") {
           setAirport(emptyAirport);
@@ -64,12 +45,13 @@ export const AutocompletInput = ({
         setInputValue(newInputValue);
       }}
       onChange={(event: any, newValue: Airport | null) => {
-        setOptions(newValue ? [newValue, ...options] : options);
+        setOptions([]);
         setAirport(newValue);
+        setInputValue("");
       }}
       value={airport}
       isOptionEqualToValue={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => `${option.name} - ${option.iata}`}
+      getOptionLabel={(option) => `${option.iata} - ${option.name}`}
       options={options}
       loading={loading}
       renderInput={(params) => (
@@ -78,6 +60,14 @@ export const AutocompletInput = ({
           label={label}
           InputProps={{
             ...params.InputProps,
+            endAdornment: (
+              <React.Fragment>
+                {loading ? (
+                  <CircularProgress color="inherit" size={20} />
+                ) : null}
+                {params.InputProps.endAdornment}
+              </React.Fragment>
+            ),
           }}
         />
       )}

@@ -1,6 +1,6 @@
 export type Location = {
-  latitude: number;
-  longitude: number;
+  lat: number;
+  lng: number;
   name?: string;
 };
 
@@ -14,10 +14,10 @@ const toDeg = (value: number) => {
 
 export const calcCrow = (locationFrom: Location, locationTo: Location) => {
   let R = 6371; // km
-  let diferenceLat = toRad(locationTo.latitude - locationFrom.latitude);
-  let diferenceLong = toRad(locationTo.longitude - locationFrom.longitude);
-  let fromLatitudeRaius = toRad(locationFrom.latitude);
-  let toLatitudeRadius = toRad(locationTo.latitude);
+  let diferenceLat = toRad(locationTo.lat - locationFrom.lat);
+  let diferenceLong = toRad(locationTo.lng - locationFrom.lng);
+  let fromLatitudeRaius = toRad(locationFrom.lat);
+  let toLatitudeRadius = toRad(locationTo.lat);
 
   let a =
     Math.sin(diferenceLat / 2) * Math.sin(diferenceLat / 2) +
@@ -31,25 +31,25 @@ export const calcCrow = (locationFrom: Location, locationTo: Location) => {
 };
 
 export const middlePoint = (locationFrom: Location, locationTo: Location) => {
-  let diferenceLong = toRad(locationTo.longitude - locationFrom.longitude);
+  let diferenceLong = toRad(locationTo.lng - locationFrom.lng);
 
-  locationFrom.latitude = toRad(locationFrom.latitude);
-  locationTo.latitude = toRad(locationTo.latitude);
-  locationFrom.longitude = toRad(locationFrom.longitude);
+  locationFrom.lat = toRad(locationFrom.lat);
+  locationTo.lat = toRad(locationTo.lat);
+  locationFrom.lng = toRad(locationFrom.lng);
 
-  let bX = Math.cos(locationTo.latitude) * Math.cos(diferenceLong);
-  let bY = Math.cos(locationTo.latitude) * Math.sin(diferenceLong);
+  let bX = Math.cos(locationTo.lat) * Math.cos(diferenceLong);
+  let bY = Math.cos(locationTo.lat) * Math.sin(diferenceLong);
   let lat3 = Math.atan2(
-    Math.sin(locationFrom.latitude) + Math.sin(locationTo.latitude),
+    Math.sin(locationFrom.lat) + Math.sin(locationTo.lat),
     Math.sqrt(
-      (Math.cos(locationFrom.latitude) + bX) *
-        (Math.cos(locationFrom.latitude) + bX) +
+      (Math.cos(locationFrom.lat) + bX) *
+        (Math.cos(locationFrom.lat) + bX) +
         bY * bY
     )
   );
   let lng3 =
-    locationFrom.longitude +
-    Math.atan2(bY, Math.cos(locationFrom.latitude) + bX);
+    locationFrom.lng +
+    Math.atan2(bY, Math.cos(locationFrom.lat) + bX);
 
   return { lat: toDeg(lat3), lng: toDeg(lng3) };
 };

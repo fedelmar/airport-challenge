@@ -1,6 +1,7 @@
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import { Location } from "../helpers/distanceCalc";
+import { Box } from "@mui/material";
 
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
 
@@ -12,69 +13,109 @@ const MapComponent = ({
 }: {
   center: google.maps.LatLngLiteral;
   zoom: number;
-  locationFrom: Location;
-  locationTo: Location;
+  locationFrom?: Location;
+  locationTo?: Location;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map>();
   const [middlePoint, setMiddlePoint] = useState<google.maps.LatLngLiteral>(
     center
   );
-
-  const positionFrom: google.maps.LatLngLiteral = {
-    lat: locationFrom.latitude,
-    lng: locationFrom.longitude,
-  };
-
-  const positionTo: google.maps.LatLngLiteral = {
-    lat: locationTo.latitude,
-    lng: locationTo.longitude,
-  };
+  const [markerFrom, setMarkerFrom] = useState<google.maps.Marker>();
+  const [markerTo, setMarkerTo] = useState<google.maps.Marker>();
+  const [line, setLine] = useState<google.maps.Polyline>();
 
   useEffect(() => {
-    if (ref.current && !map) {
-      // Iniciate map
+    // Iniciate map
+    if (ref.current) {
       const map = new window.google.maps.Map(ref.current, {
         center: middlePoint,
         zoom,
       });
-
-      // Set bounds
-      const bounds = new google.maps.LatLngBounds();
-      bounds.extend(positionFrom);
-      bounds.extend(positionTo);
-      map.fitBounds(bounds);
-
-      // Add airport from marker
-      new window.google.maps.Marker({
-        position: positionFrom,
-        map,
-        title: locationFrom.name,
-      });
-
-      // Add ariport to marker
-      new window.google.maps.Marker({
-        position: positionTo,
-        map,
-        title: locationTo.name,
-      });
-
-      // Add line
-      const line = new window.google.maps.Polyline({
-        path: [positionFrom, positionTo],
-        geodesic: true,
-        strokeColor: "#0000FF",
-        strokeOpacity: 0.8,
-        strokeWeight: 3,
-      });
-
-      line.setMap(map);
-
       setMap(map);
     }
-  }, [ref, map]);
+  }, []);
 
-  return <div ref={ref} id="map" style={{ height: "400px", width: "350px" }} />;
+  useEffect(() => {
+    if (map) {
+      if (locationFrom) {
+        // Add airport from marker
+        const marker = new window.google.maps.Marker({
+          position: locationFrom,
+          map,
+        });
+        if (markerFrom) {
+          markerFrom.setMap(null);
+        }
+        setMarkerFrom(marker);
+        map.setCenter(center);
+      } else {
+        if (markerFrom) {
+          markerFrom.setMap(null);
+          setMarkerFrom(undefined);
+        }
+      }
+
+      if (locationTo) {
+        // Add airport from marker
+        const marker = new window.google.maps.Marker({
+          position: locationTo,
+          map,
+        });
+        if (markerTo) {
+          markerTo.setMap(null);
+        }
+        setMarkerTo(marker);
+        map.setCenter(center);
+      } else {
+        if (markerTo) {
+          markerTo.setMap(null);
+          setMarkerTo(undefined);
+        }
+      }
+    }
+  }, [locationFrom, locationTo]);
+
+  useEffect(() => {
+    if (map) {
+      // Set bounds
+      if (markerFrom && markerTo) {
+        const bounds = new google.maps.LatLngBounds();
+        bounds.extend(markerFrom.getPosition()!);
+        bounds.extend(markerTo.getPosition()!);
+        map.fitBounds(bounds);
+
+        // Add line
+        const drawLine = new window.google.maps.Polyline({
+          path: [markerFrom.getPosition()!, markerTo.getPosition()!],
+          geodesic: true,
+          strokeColor: "#0000FF",
+          strokeOpacity: 0.8,
+          strokeWeight: 3,
+        });
+        if (line) {
+          line.setMap(null);
+        }
+        drawLine.setMap(map);
+        setLine(drawLine);
+      } else {
+        if (line) {
+          line.setMap(null);
+        }
+      }
+    }
+  }, [markerFrom, markerTo]);
+
+  return (
+    <Box
+      ref={ref}
+      id="map"
+      sx={{
+        height: "25em",
+        width: { xs: 300, sm: 550, md: 700, lg: 700, xl: 700 },
+      }}
+    />
+  );
 };
 
 const render = (status: Status): ReactElement => {
@@ -83,8 +124,8 @@ const render = (status: Status): ReactElement => {
 };
 
 interface MapProps {
-  locationFrom: Location;
-  locationTo: Location;
+  locationFrom?: Location;
+  locationTo?: Location;
   center: google.maps.LatLngLiteral;
 }
 
