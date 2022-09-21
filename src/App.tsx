@@ -4,7 +4,7 @@ import { Airport } from "./services/autocomplete";
 import { AutocompletInput } from "./components/AutocompleteInput";
 import { calcCrow, middlePoint } from "./helpers/distanceCalc";
 import { Map } from "./components/Map";
-import { Divider, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 export const emptyAirport = {
   name: "",
@@ -85,6 +85,7 @@ const App = () => {
       <Box
         component="span"
         sx={{
+          marginTop: 2,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -109,20 +110,20 @@ const App = () => {
           },
         }}
       >
-        <Typography variant="h5">Airport Distance Calculator</Typography>
+        <Typography variant="h5"  sx={{ marginBottom: 5 }}>Airport Distance Calculator</Typography>
         <Box
           sx={{
-            minWidth: 500,
+            minWidth: 300,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            marginBottom: 3 
           }}
         >
-          <Typography variant="body2" sx={{ marginBottom: "3px" }}>
+          <Typography variant="body2"  sx={{ marginBottom: 1 }}>
             Type at least 3 characters to search
           </Typography>
           <AutocompletInput airport={from} setAirport={setFrom} label="From" />
-
           <AutocompletInput airport={to} setAirport={setTo} label="To" />
         </Box>
 
