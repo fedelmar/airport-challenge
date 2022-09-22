@@ -29,8 +29,8 @@ const emptyPoint = {
 };
 
 const App = () => {
-  const [from, setFrom] = useState<Airport | null>(emptyAirport);
-  const [to, setTo] = useState<Airport | null>(emptyAirport);
+  const [from, setFrom] = useState<Airport | null>(null);
+  const [to, setTo] = useState<Airport | null>(null);
   const [distance, setDistance] = useState<Number>(0);
   const [locationFrom, setLocationFrom] = useState<google.maps.LatLngLiteral>();
   const [locationTo, setLocationTo] = useState<google.maps.LatLngLiteral>();
