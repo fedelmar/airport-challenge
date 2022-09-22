@@ -111,8 +111,9 @@ const MapComponent = ({
       ref={ref}
       id="map"
       sx={{
-        height: "25em",
-        width: { xs: 300, sm: 550, md: 700, lg: 700, xl: 700 },
+        borderRadius: "5px",
+        height:{ xs: 300, sm: 350, md: 700, },
+        width: { xs: 300, sm: 550, md: 700, },
       }}
     />
   );

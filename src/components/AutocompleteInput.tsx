@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Autocomplete, CircularProgress, TextField } from "@mui/material";
 import { getAirports, Airport } from "../services/autocomplete";
-import { emptyAirport } from "../App";
 
 interface AutocompletInputProps {
   airport: Airport | null;
@@ -36,10 +35,10 @@ export const AutocompletInput = ({
   return (
     <Autocomplete
       id="airport-autocomplete"
-      sx={{ width: '100%', marginY: "5px" }}
+      sx={{ width: "100%", marginY: "5px" }}
       onInputChange={(event, newInputValue, reason) => {
         if (reason === "clear") {
-          setAirport(emptyAirport);
+          setAirport(null);
           setOptions([]);
         }
         setInputValue(newInputValue);

@@ -8,16 +8,6 @@ import { Typography } from "@mui/material";
 import AirlinesIcon from "@mui/icons-material/Airlines";
 import FlightIcon from "@mui/icons-material/Flight";
 
-export const emptyAirport = {
-  name: "",
-  city: "",
-  iata: "",
-  country: { name: "", iso: "" },
-  state: { name: "", abbr: "" },
-  latitude: "",
-  longitude: "",
-};
-
 const middleUsaPoint = {
   lat: 39.8097343,
   lng: -98.5556199,
@@ -89,75 +79,90 @@ const App = () => {
         sx={{
           marginTop: 2,
           display: "flex",
-          flexDirection: "column",
+          flexDirection: { xs: "column", sm: "row", md: "column" },
           alignItems: "center",
           justifyContent: "center",
           p: 3,
           border: "1px  solid  black",
-          borderRadius: "3%",
+          borderRadius: "5px",
           boxShadow: "5px 2px 2px grey",
           width: {
             xs: 300,
-            sm: 550,
+            sm: 650,
             md: 700,
-            lg: 700,
-            xl: 700,
           },
           height: {
             xs: 600,
-            sm: 700,
+            sm: 330,
             md: 700,
-            lg: 700,
-            xl: 700,
           },
         }}
       >
-        <Typography
-          variant="h5"
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: 5,
-            textDecoration: "underline",
-          }}
-        >
-          Airport Distance Calculator
-          <AirlinesIcon sx={{ marginLeft: 1 }} fontSize="large" />
-        </Typography>
-
         <Box
           sx={{
-            width: {
-              xs: 300,
-              sm: 550,
-              md: 700,
-              lg: 700,
-              xl: 700,
-            },
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
-            marginBottom: 3,
+            alignItems: { xs: "center", sm: "start", md: "center" },
+            marginRight: { xs: 0, sm: 3, md: 0 },
+            width: {
+              xs: 300,
+              sm: 300,
+              md: 700,
+            },
+            height: 'auto',
           }}
         >
-          <Typography variant="body2" sx={{ marginBottom: 1 }}>
-            Type at least 3 characters to search
+          <Typography
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: { xs: 5, sm: 3, md: 5 },
+              textDecoration: "underline",
+              fontSize: { xs: 25, sm: 20, md: 25 },
+            }}
+          >
+            Airport Distance Calculator
+            <AirlinesIcon sx={{ marginLeft: 1 }} fontSize="large" />
           </Typography>
-          <AutocompletInput airport={from} setAirport={setFrom} label="From" />
-          <AutocompletInput airport={to} setAirport={setTo} label="To" />
-        </Box>
 
-        {distance !== 0 && (
-          <Box sx={{ display: "flex", marginBottom: 3, alignItems: "center" }}>
-            <FlightIcon sx={{ transform: "rotate(45deg)", marginRight: 1 }} />
-            <Typography sx={{ marginRight: 1 }}>
-              The distance between the two airports is:
+          <Box
+            sx={{
+              width: {
+                xs: 300,
+                sm: 300,
+                md: 700,
+              },
+              display: "flex",
+              flexDirection: "column",
+              alignItems: { sx: "center", sm: "start", md: "center" },
+              marginBottom: 3,
+            }}
+          >
+            <Typography variant="body2" sx={{ marginBottom: 1 }}>
+              Type at least 3 characters to search
             </Typography>
-            <Typography fontWeight="bold">
-              {distance.toFixed(2)} nmi.
-            </Typography>
+            <AutocompletInput
+              airport={from}
+              setAirport={setFrom}
+              label="From"
+            />
+            <AutocompletInput airport={to} setAirport={setTo} label="To" />
           </Box>
-        )}
+
+          {distance !== 0 && (
+            <Box
+              sx={{ display: "flex", marginBottom: 3, alignItems: "center" }}
+            >
+              <FlightIcon sx={{ transform: "rotate(45deg)", marginRight: 1 }} />
+              <Typography sx={{ marginRight: 1 }}>
+                The distance between the two airports is:
+              </Typography>
+              <Typography fontWeight="bold">
+                {distance.toFixed(2)} nmi.
+              </Typography>
+            </Box>
+          )}
+        </Box>
 
         <Map
           locationFrom={
