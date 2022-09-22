@@ -154,7 +154,7 @@ const App = () => {
               sx={{ display: "flex", marginBottom: 3, alignItems: "center" }}
             >
               <FlightIcon sx={{ transform: "rotate(45deg)", marginRight: 1 }} />
-              <Typography sx={{ marginRight: 1 }}>
+              <Typography sx={{ marginRight: 1, maxWidth:  { xs: 160, sm: 160, md: 300 } }}>
                 The distance between the two airports is:
               </Typography>
               <Typography fontWeight="bold">
