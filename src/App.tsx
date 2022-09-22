@@ -94,7 +94,7 @@ const App = () => {
           height: {
             xs: 600,
             sm: 330,
-            md: 700,
+            md: 650,
           },
         }}
       >
@@ -109,16 +109,16 @@ const App = () => {
               sm: 300,
               md: 700,
             },
-            height: 'auto',
+            height: "auto",
           }}
         >
           <Typography
+            fontWeight="bold"
             sx={{
               display: "flex",
               alignItems: "center",
-              marginBottom: { xs: 5, sm: 3, md: 5 },
-              textDecoration: "underline",
-              fontSize: { xs: 25, sm: 20, md: 25 },
+              marginBottom: { xs: 2, sm: 3, md: 5 },
+              fontSize: { xs: 20, sm: 20, md: 25 },
             }}
           >
             Airport Distance Calculator
@@ -138,9 +138,6 @@ const App = () => {
               marginBottom: 3,
             }}
           >
-            <Typography variant="body2" sx={{ marginBottom: 1 }}>
-              Type at least 3 characters to search
-            </Typography>
             <AutocompletInput
               airport={from}
               setAirport={setFrom}
@@ -154,7 +151,9 @@ const App = () => {
               sx={{ display: "flex", marginBottom: 3, alignItems: "center" }}
             >
               <FlightIcon sx={{ transform: "rotate(45deg)", marginRight: 1 }} />
-              <Typography sx={{ marginRight: 1, maxWidth:  { xs: 160, sm: 160, md: 300 } }}>
+              <Typography
+                sx={{ marginRight: 1, maxWidth: { xs: 160, sm: 160, md: 300 } }}
+              >
                 The distance between the two airports is:
               </Typography>
               <Typography fontWeight="bold">
